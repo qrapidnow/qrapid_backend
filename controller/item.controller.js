@@ -4,18 +4,21 @@ const CategoryModel = require('../model/category.model');
 
 const createItem = async (req, res) => {
     const { name, price, description, categoryId, weight, unit } = req.body;
-    const image = req.file ? req.file.path : '';
+    const image = req.file ? req.file.path : '';  // Optional image handling
 
+    // Check for required fields
     if (!name || !price || !description || !categoryId || !weight || !unit) {
         return res.status(400).send({ error: 'All fields are required' });
     }
 
+    // Validate categoryId
     if (!mongoose.Types.ObjectId.isValid(categoryId)) {
         console.error('Invalid category ID:', categoryId);
         return res.status(400).send({ error: 'Invalid category ID' });
     }
 
     try {
+        // Find category by ID
         console.debug('Finding category with ID:', categoryId);
         const category = await CategoryModel.findOne({ _id: categoryId });
         if (!category) {
@@ -23,12 +26,13 @@ const createItem = async (req, res) => {
             return res.status(404).send({ error: 'Category not found' });
         }
 
+        // Create new item
         const item = new ItemModel({
             name,
             price,
             description,
             category: categoryId,
-            image,
+            image,  // Optional image
             weight,
             unit
         });
