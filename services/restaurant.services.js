@@ -1,4 +1,3 @@
-// services/restaurant.services.js
 const RestaurantModel = require('../model/restaurant.model');
 
 class RestaurantServices {
