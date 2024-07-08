@@ -12,12 +12,12 @@ const authenticate = async (req, res, next) => {
   console.log('Token:', token); // Log the token to see what is being sent
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, 'secret');
     console.log('Decoded:', decoded);
     const user = await UserModel.findById(decoded._id);
     if (!user) {
       console.error('User not found');
-      throw new Error('User not found');
+      throw new Error();
     }
     req.user = user;
     next();
