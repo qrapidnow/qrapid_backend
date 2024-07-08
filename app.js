@@ -7,6 +7,7 @@ const userRouter = require('./routers/user.router');
 const restaurantRouter = require('./routers/restaurant.router');
 const categoryRouter = require('./routers/category.router');
 const itemRouter = require('./routers/item.router');
+require('dotenv').config();
 
 const app = express();
 
