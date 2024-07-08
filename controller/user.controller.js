@@ -6,16 +6,15 @@ exports.register = async (req, res, next) => {
         const { email, password } = req.body;
         const duplicate = await UserServices.getUserByEmail(email);
         if (duplicate) {
-            throw new Error(`UserName ${email}, Already Registered`)
+            throw new Error(`UserName ${email}, Already Registered`);
         }
-        const response = await UserServices.registerUser(email, password);
-
+        await UserServices.registerUser(email, password);
         res.json({ status: true, success: 'User registered successfully' });
     } catch (err) {
         console.log(err);
         next(err);
     }
-}
+};
 
 exports.login = async (req, res, next) => {
     try {
@@ -24,6 +23,7 @@ exports.login = async (req, res, next) => {
         if (!email || !password) {
             throw new Error('Parameters are not correct');
         }
+
         let user = await UserServices.checkUser(email);
         if (!user) {
             throw new Error('User does not exist');
@@ -48,7 +48,8 @@ exports.login = async (req, res, next) => {
         console.log(error);
         next(error);
     }
-}
+};
+
 exports.getTokenByUserId = async (req, res, next) => {
     try {
         const user = await UserModel.findById(req.params.userId);
@@ -60,7 +61,8 @@ exports.getTokenByUserId = async (req, res, next) => {
         console.log(error);
         next(error);
     }
-}
+};
+
 exports.getUsers = async (req, res, next) => {
     try {
         const users = await UserModel.find({}, '_id email');
@@ -69,4 +71,4 @@ exports.getUsers = async (req, res, next) => {
         console.log(error);
         next(error);
     }
-}
+};
